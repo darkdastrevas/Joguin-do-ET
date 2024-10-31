@@ -12,8 +12,10 @@ public class Moeda : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Encostou na Moeda");
-        other.GetComponent<Jogador>().Moeda += 1;
-        Debug.Log("Moeda: " + other.GetComponent<Jogador>().Moeda);
-        Destroy(gameObject);
+        if (other.tag == "Player")
+        {
+            other.GetComponent<Jogador>().ColetarMoeda();
+            Destroy(gameObject);
+        }
     }
 }
