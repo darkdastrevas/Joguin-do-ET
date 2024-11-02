@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class HeartSystem : MonoBehaviour
 {
+    // VARIÁVEIS
     public int vidaMax;
     public int vidaAtual;
 
@@ -21,11 +22,12 @@ public class HeartSystem : MonoBehaviour
     {
         HealthLogic();
     }
-
+    // LÓGICA DA VIDA
     void HealthLogic()
     {
         for (int i = 0; i < heart.Length; i++)
         {
+            // TROCAR DE SPRITE
             if (i < vidaAtual)
             {
                 heart[i].sprite = cheio;
@@ -34,6 +36,7 @@ public class HeartSystem : MonoBehaviour
             {
                 heart[i].sprite = vazio;
             }
+            // PERDER-GANHAR VIDA
             if (i < vidaMax)
             {
                 heart[i].enabled = true;
