@@ -101,17 +101,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ff967b7ed48f2441bcf509edf6b889a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isAnimated: 0
+  isAnimated: 1
   isRotating: 1
   isFloating: 1
   isScaling: 1
   rotationAngle: {x: 0, y: 0, z: 10}
   rotationSpeed: 10
-  floatSpeed: 0.04
-  floatRate: 0.5
-  startScale: {x: 1, y: 1, z: 1}
-  endScale: {x: 1.5, y: 1.5, z: 1.5}
-  scaleSpeed: 1
+  floatSpeed: 0.001
+  floatRate: 0.01
+  startScale: {x: 0.15, y: 0.15, z: 0.15}
+  endScale: {x: 0.2, y: 0.2, z: 0.2}
+  scaleSpeed: 0.5
   scaleRate: 0.5
 --- !u!136 &365437288172388255
 CapsuleCollider:

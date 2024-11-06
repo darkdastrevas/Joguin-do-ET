@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using TMPro;
 public class Jogador : MonoBehaviour
