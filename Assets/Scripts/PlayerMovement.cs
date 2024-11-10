@@ -35,21 +35,28 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        // Verificação de solo
+       
         isGrounded = Physics.CheckSphere(transform.position, groundCheckDistance, groundMask);
-
 
         if (isGrounded && velocity.y < 0)
         {
             anim.SetBool("isJumping", false);
-            velocity.y = -2f;  // Redefine a velocidade vertical quando no chão
-
+            velocity.y = -2f;  
         }
 
         // Entrada de movimento
-        float moveZ = Input.GetAxis("Vertical");
+        float moveZ = Input.GetAxis("Vertical"); // Frente e trás
+        float moveX = Input.GetAxis("Horizontal"); // Esquerda e direita
 
-        moveDirection = new Vector3(0, 0, moveZ).normalized;
+        // Direção do movimento
+        moveDirection = new Vector3(moveX, 0, moveZ).normalized;
+
+        if (moveDirection != Vector3.zero)
+        {
+            // Rotaciona o jogador
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f); // Suaviza a rotação
+        }
 
         if (isGrounded)
         {
@@ -58,23 +65,19 @@ public class PlayerMovement : MonoBehaviour
                 // Andar
                 Walk();
             }
-
             else if (moveDirection != Vector3.zero && Input.GetKey(KeyCode.LeftShift))
             {
                 // Correr
                 Run();
             }
-
             else if (moveDirection == Vector3.zero)
             {
                 // Idle
                 Idle();
             }
 
-            // Aplicar movimento horizontal
-            controller.Move(transform.TransformDirection(moveDirection) * moveSpeed * Time.deltaTime);
-
-            
+            // Aplica movimentação na direção do jogador
+            controller.Move(moveDirection * moveSpeed * Time.deltaTime);
         }
 
         // Pulo
@@ -95,7 +98,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Walk()
-    { 
+    {
         moveSpeed = walkSpeed;
         anim.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
     }
@@ -106,10 +109,9 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("Speed", 1, 0.1f, Time.deltaTime);
     }
 
-
     private void Jump()
     {
-        // Calcula a força do pulo baseada na altura desejada
+        // Força do pulo
         velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         anim.SetBool("isJumping", true);
     }
