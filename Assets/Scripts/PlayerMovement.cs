@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // VARIÁVEIS DE MOVIMENTO
+    // VARIAVEIS DE MOVIMENTO
     private float moveSpeed;
     [SerializeField] private float walkSpeed = 2f;
     [SerializeField] private float runSpeed = 5f;
     [SerializeField] private float jumpHeight = 1.5f;
     [SerializeField] private float gravity = -9.81f;
 
-    // VARIÁVEIS DE CHECAGEM
+    // VARIAVEIS DE CHECAGEM
     [SerializeField] private float groundCheckDistance = 0.5f;
     [SerializeField] private LayerMask groundMask;
 
@@ -18,9 +18,10 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private bool isGrounded;
 
-    // REFERÊNCIA
+    // REFERENCIAS
     private CharacterController controller;
     private Animator anim;
+    [SerializeField] private Transform cameraTransform;  // Referencia da camera para o player
 
     private void Start()
     {
@@ -35,49 +36,58 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-       
+        // Verificação de solo
         isGrounded = Physics.CheckSphere(transform.position, groundCheckDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
         {
             anim.SetBool("isJumping", false);
-            velocity.y = -2f;  
+            velocity.y = -2f; 
         }
 
         // Entrada de movimento
-        float moveZ = Input.GetAxis("Vertical"); // Frente e trás
+        float moveZ = Input.GetAxis("Vertical"); // Frente e tras
         float moveX = Input.GetAxis("Horizontal"); // Esquerda e direita
 
-        // Direção do movimento
-        moveDirection = new Vector3(moveX, 0, moveZ).normalized;
+        // Direção do movimento baseada na camera
+        Vector3 camForward = cameraTransform.forward;
+        Vector3 camRight = cameraTransform.right;
 
-        if (moveDirection != Vector3.zero)
-        {
-            // Rotaciona o jogador
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f); // Suaviza a rotação
-        }
+        // Ignora a direcao vertical da camera
+        camForward.y = 0;
+        camRight.y = 0;
 
-        if (isGrounded)
+        // Deixa a camera normar
+        camForward.Normalize();
+        camRight.Normalize();
+
+        // Calcula a direcao do movimento
+        moveDirection = (camForward * moveZ + camRight * moveX).normalized;
+
+        if (moveDirection.magnitude >= 0.1f)  // Verifica se tem movimento
         {
-            if (moveDirection != Vector3.zero && !Input.GetKey(KeyCode.LeftShift))
+        
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                // Andar
-                Walk();
-            }
-            else if (moveDirection != Vector3.zero && Input.GetKey(KeyCode.LeftShift))
-            {
-                // Correr
                 Run();
             }
-            else if (moveDirection == Vector3.zero)
+            else
             {
-                // Idle
-                Idle();
+                Walk();
             }
 
-            // Aplica movimentação na direção do jogador
+            // Rotaciona o player na direcao do vetor
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+            // Suaviza a rotacao
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f); // Suaviza a rotação
+
+            // Aplica movimento na direcao
             controller.Move(moveDirection * moveSpeed * Time.deltaTime);
+        }
+        else
+        {
+            // Idle quando não está se movendo
+            Idle();
         }
 
         // Pulo
@@ -111,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        // Força do pulo
+        // Forca do pulo
         velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         anim.SetBool("isJumping", true);
     }
