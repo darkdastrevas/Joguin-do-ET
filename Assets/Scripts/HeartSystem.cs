@@ -11,10 +11,13 @@ public class HeartSystem : MonoBehaviour
     public Sprite cheio;
     public Sprite vazio;
 
+    private Animator anim;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        vidaAtual = vidaMax;
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -47,5 +50,15 @@ public class HeartSystem : MonoBehaviour
             }
         }
 
+        if (vidaAtual <= 0)
+        {
+            Morrer();
+        }
+
+    }
+
+    private void Morrer()
+    {
+        anim.SetTrigger("Morrer");
     }
 }
