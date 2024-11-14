@@ -15,6 +15,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 moveDirection;
     private Vector3 velocity;
+    private bool isFalling;
+    private bool isAlive = true; // Controle para saber se o jogador está vivo
+
 
     [SerializeField] private bool isGrounded;
 
@@ -22,16 +25,27 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller;
     private Animator anim;
     [SerializeField] private Transform cameraTransform;  // Referencia da camera para o player
+    private HeartSystem heartSystem;
 
     private void Start()
     {
         controller = GetComponent<CharacterController>();
         anim = GetComponentInChildren<Animator>();
+        heartSystem = GetComponentInChildren<HeartSystem>();
     }
 
     private void Update()
     {
-        Move();
+        if (isAlive) // Apenas executa o movimento se o jogador estiver vivo
+        {
+            Move();
+        }
+
+        // Verifica se a vida chegou a zero e chama Morrer() se necessário
+        if (heartSystem.vidaAtual <= 0 && isAlive)
+        {
+            Die();
+        }
     }
 
     private void Move()
@@ -42,7 +56,18 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded && velocity.y < 0)
         {
             anim.SetBool("isJumping", false);
-            velocity.y = -2f; 
+            velocity.y = -2f;
+            isFalling = false; // Parar a animação de cair
+            anim.SetBool("is_in_air", false); // Parar a animação de cair
+        }
+        else
+        {
+            // Se o jogador está no ar e não está subindo, ativa a animação de cair
+            if (velocity.y < 0 && !isFalling)
+            {
+                isFalling = true;
+                anim.SetBool("is_in_air", true); // Inicia a animação de cair
+            }
         }
 
         // Entrada de movimento
@@ -125,4 +150,10 @@ public class PlayerMovement : MonoBehaviour
         velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         anim.SetBool("isJumping", true);
     }
+    private void Die()
+    {
+        isAlive = false; // Define o jogador como morto
+        anim.SetTrigger("Morrer"); // Ativa a animação de morte
+    }
+
 }

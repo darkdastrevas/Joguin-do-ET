@@ -17,7 +17,6 @@ public class HeartSystem : MonoBehaviour
     void Start()
     {
         vidaAtual = vidaMax;
-        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -50,15 +49,6 @@ public class HeartSystem : MonoBehaviour
             }
         }
 
-        if (vidaAtual <= 0)
-        {
-            Morrer();
-        }
-
     }
 
-    private void Morrer()
-    {
-        anim.SetTrigger("Morrer");
-    }
 }
