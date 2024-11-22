@@ -118,11 +118,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Damage
+      name: Hit
       takeName: Armature|Damage
       internalID: -6788532455012819382
       firstFrame: 0
-      lastFrame: 32
+      lastFrame: 10
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
