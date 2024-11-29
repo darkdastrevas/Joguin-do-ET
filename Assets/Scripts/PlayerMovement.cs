@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveDirection;
     private Vector3 velocity;
     private bool isFalling;
-    private bool isAlive = true; // Controle para saber se o jogador está vivo
+    public bool isAlive = true; // Controle para saber se o jogador está vivo
 
 
     [SerializeField] private bool isGrounded;
@@ -154,6 +154,12 @@ public class PlayerMovement : MonoBehaviour
     {
         isAlive = false; // Define o jogador como morto
         anim.SetTrigger("Morrer"); // Ativa a animação de morte
+    }
+
+    public void Revive ()
+    {
+        isAlive = true;
+        anim.SetTrigger("Renasceu");
     }
 
 }

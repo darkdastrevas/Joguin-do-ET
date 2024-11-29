@@ -18,6 +18,8 @@ public class HeartSystem : MonoBehaviour
     [SerializeField] private float fadeDuration = 1.0f; // Duração do fade
     [SerializeField] private Transform startPoint; // Ponto inicial para resetar o personagem
 
+    [SerializeField] private PlayerMovement PlayerMovement;
+
     private bool isFading = false;
 
     void Start()
@@ -65,6 +67,8 @@ public class HeartSystem : MonoBehaviour
         }
     }
 
+    
+
     // COROUTINE PARA FADE E RESET
     private IEnumerator HandleDeath()
     {
@@ -74,13 +78,16 @@ public class HeartSystem : MonoBehaviour
         yield return StartCoroutine(Fade(1));
 
         // Resetar posição e vida
-        transform.position = startPoint.position;
+        transform.parent.position = startPoint.position;
         vidaAtual = vidaMax;
 
         // Fade In (de volta à cena)
         yield return StartCoroutine(Fade(0));
 
         isFading = false;
+        PlayerMovement.isAlive = true;
+        PlayerMovement.Revive();
+
     }
 
     // Função de fade genérica

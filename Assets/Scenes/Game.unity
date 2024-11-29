@@ -909,6 +909,7 @@ MonoBehaviour:
   fadeImage: {fileID: 1331075586}
   fadeDuration: 1
   startPoint: {fileID: 1477086447}
+  PlayerMovement: {fileID: 1607926036}
 --- !u!95 &971235660
 Animator:
   serializedVersion: 7
