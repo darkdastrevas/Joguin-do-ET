@@ -32,4 +32,8 @@ public class controleufo : MonoBehaviour
         float rotationInput = Input.GetAxis("Mouse X"); // Input para girar com o mouse
         transform.Rotate(0, rotationInput * rotationSpeed * Time.deltaTime, 0);
     }
+    
+    // REFERENCIAS
+    private Animator anim;
+
 }
