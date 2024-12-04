@@ -373,7 +373,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: UNTITLED ALIEN GAME
+  m_text: B O G O S SPACE ADVENTURE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7b4a0be5bef64fb4eb787b89c49305f5, type: 2}
   m_sharedMaterial: {fileID: -3422627791037788267, guid: 7b4a0be5bef64fb4eb787b89c49305f5, type: 2}
