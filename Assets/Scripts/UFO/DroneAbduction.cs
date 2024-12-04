@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class DroneAbduction : MonoBehaviour
 {
-    [SerializeField] private Transform abductionPoint; // Ponto onde o objeto será levitado
-    [SerializeField] private float liftSpeed = 5f; // Velocidade de levitação
+    [SerializeField] private Transform abductionPoint; // Ponto onde o objeto sera levitado
+    [SerializeField] private float liftSpeed = 5f; // Velocidade de levitacao
     [SerializeField] private float detectionRadius = 5f; // Raio de detecção da abdução
     [SerializeField] private LayerMask abductionLayer; // Layer para objetos que podem ser abduzidos
 

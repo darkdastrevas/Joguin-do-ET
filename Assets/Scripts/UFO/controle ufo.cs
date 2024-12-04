@@ -9,8 +9,15 @@ public class controleufo : MonoBehaviour
 
     private Vector3 moveDirection;
 
+    public Animator anim;
+
     // REFERÊNCIAS
     [SerializeField] private Transform cameraTransform;
+
+    public void Spawn()
+        {
+            anim.SetTrigger("Spawn");
+        }
 
     void Update()
     {
@@ -49,5 +56,7 @@ public class controleufo : MonoBehaviour
             Quaternion toRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
         }
+
+       
     }
 }

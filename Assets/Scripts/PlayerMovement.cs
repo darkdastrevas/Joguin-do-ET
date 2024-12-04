@@ -16,10 +16,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveDirection;
     private Vector3 velocity;
     private bool isFalling;
-    public bool isAlive = true; // Controle para saber se o jogador está vivo
+    public bool isAlive = true; // Controle para saber se o jogador estï¿½ vivo
 
 
-    [SerializeField] private bool isGrounded;
+    [SerializeField] public bool isGrounded;
 
     // REFERENCIAS
     private CharacterController controller;
@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
             Move();
         }
 
-        // Verifica se a vida chegou a zero e chama Morrer() se necessário
+        // Verifica se a vida chegou a zero e chama Morrer() se necessï¿½rio
         if (heartSystem.vidaAtual <= 0 && isAlive)
         {
             Die();
@@ -50,23 +50,23 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        // Verificação de solo
+        // Verificaï¿½ï¿½o de solo
         isGrounded = Physics.CheckSphere(transform.position, groundCheckDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
         {
             anim.SetBool("isJumping", false);
             velocity.y = -2f;
-            isFalling = false; // Parar a animação de cair
-            anim.SetBool("is_in_air", false); // Parar a animação de cair
+            isFalling = false; // Parar a animaï¿½ï¿½o de cair
+            anim.SetBool("is_in_air", false); // Parar a animaï¿½ï¿½o de cair
         }
         else
         {
-            // Se o jogador está no ar e não está subindo, ativa a animação de cair
+            // Se o jogador estï¿½ no ar e nï¿½o estï¿½ subindo, ativa a animaï¿½ï¿½o de cair
             if (velocity.y < 0 && !isFalling)
             {
                 isFalling = true;
-                anim.SetBool("is_in_air", true); // Inicia a animação de cair
+                anim.SetBool("is_in_air", true); // Inicia a animaï¿½ï¿½o de cair
             }
         }
 
@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         float moveZ = Input.GetAxis("Vertical"); // Frente e tras
         float moveX = Input.GetAxis("Horizontal"); // Esquerda e direita
 
-        // Direção do movimento baseada na camera
+        // Direï¿½ï¿½o do movimento baseada na camera
         Vector3 camForward = cameraTransform.forward;
         Vector3 camRight = cameraTransform.right;
 
@@ -104,14 +104,14 @@ public class PlayerMovement : MonoBehaviour
             // Rotaciona o player na direcao do vetor
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             // Suaviza a rotacao
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f); // Suaviza a rotação
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f); // Suaviza a rotaï¿½ï¿½o
 
             // Aplica movimento na direcao
             controller.Move(moveDirection * moveSpeed * Time.deltaTime);
         }
         else
         {
-            // Idle quando não está se movendo
+            // Idle quando nï¿½o estï¿½ se movendo
             Idle();
         }
 
@@ -153,7 +153,7 @@ public class PlayerMovement : MonoBehaviour
     private void Die()
     {
         isAlive = false; // Define o jogador como morto
-        anim.SetTrigger("Morrer"); // Ativa a animação de morte
+        anim.SetTrigger("Morrer"); // Ativa a animaï¿½ï¿½o de morte
     }
 
     public void Revive ()

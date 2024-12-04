@@ -305,7 +305,7 @@ Camera:
   m_GameObject: {fileID: 351216769}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -453,6 +453,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 1607926034}
   UFO: {fileID: 1239020416}
+  UFOControl: {fileID: 1239020418}
+  PlayerMovement: {fileID: 1607926036}
   PlayerCamera: {fileID: 351216774}
   UFOCamera: {fileID: 1558818374}
 --- !u!4 &355239579
@@ -754,7 +756,8 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -7673414627698704882, guid: 42a43a6caa7b81e44874307736f898bb, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 42a43a6caa7b81e44874307736f898bb, type: 3}
       insertIndex: -1
@@ -763,6 +766,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 42a43a6caa7b81e44874307736f898bb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1013856748}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 42a43a6caa7b81e44874307736f898bb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1013856749}
   m_SourcePrefab: {fileID: 100100000, guid: 42a43a6caa7b81e44874307736f898bb, type: 3}
 --- !u!1001 &792543035
 PrefabInstance:
@@ -1086,6 +1092,28 @@ MonoBehaviour:
   abductionLayer:
     serializedVersion: 2
     m_Bits: 128
+--- !u!95 &1013856749
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013856747}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 809c35472403d434b80219ea73eaa3e2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1239020416
 GameObject:
   m_ObjectHideFlags: 0
@@ -1138,8 +1166,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   horizontalSpeed: 5
-  verticalSpeed: 3
+  verticalSpeed: 8
   rotationSpeed: 100
+  anim: {fileID: 1013856749}
   cameraTransform: {fileID: 1558818378}
 --- !u!136 &1239020419
 CapsuleCollider:
@@ -1322,12 +1351,16 @@ PrefabInstance:
       value: SkyDome
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: d0223f77114284b47a0e8b317e71e4dc, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 13.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 400010, guid: d0223f77114284b47a0e8b317e71e4dc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 59
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: d0223f77114284b47a0e8b317e71e4dc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -45.43
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: d0223f77114284b47a0e8b317e71e4dc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1488,7 +1521,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -2066,7 +2099,7 @@ Camera:
   m_GameObject: {fileID: 1558818373}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
