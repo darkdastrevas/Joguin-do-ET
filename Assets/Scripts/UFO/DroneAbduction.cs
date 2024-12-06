@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class DroneAbduction : MonoBehaviour
 {
-    [SerializeField] private Transform abductionPoint; // Ponto onde o objeto sera levitado
-    [SerializeField] private float liftSpeed = 5f; // Velocidade de levitacao
+    [SerializeField] private Transform abductionPoint; // Ponto onde o objeto será levitado
+    [SerializeField] private float liftSpeed = 5f; // Velocidade de levitação
     [SerializeField] private float detectionRadius = 5f; // Raio de detecção da abdução
+    [SerializeField] private float rotationSpeed = 50f; // Velocidade de rotação manual
     [SerializeField] private LayerMask abductionLayer; // Layer para objetos que podem ser abduzidos
 
     private GameObject abductedObject; // Objeto atualmente sendo abduzido
     private bool isAbducting = false; // Controle da abdução
     private Collider abductedObjectCollider; // Collider do objeto abduzido
-
     private Collider droneCollider; // Collider do drone
 
     void Start()
@@ -46,6 +46,7 @@ public class DroneAbduction : MonoBehaviour
         if (isAbducting && abductedObject != null)
         {
             LevitateObject();
+            HandleManualRotation(); // Adiciona o controle de rotação
         }
     }
 
@@ -86,6 +87,23 @@ public class DroneAbduction : MonoBehaviour
                 abductionPoint.position,
                 liftSpeed * Time.deltaTime
             );
+        }
+    }
+
+    private void HandleManualRotation()
+    {
+        if (abductedObject == null) return;
+
+        // Rotação para a esquerda (botão esquerdo do mouse)
+        if (Input.GetMouseButton(0)) // Botão esquerdo
+        {
+            abductedObject.transform.Rotate(Vector3.up, -rotationSpeed * Time.deltaTime, Space.World);
+        }
+
+        // Rotação para a direita (botão direito do mouse)
+        if (Input.GetMouseButton(1)) // Botão direito
+        {
+            abductedObject.transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.World);
         }
     }
 
