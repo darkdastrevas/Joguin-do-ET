@@ -6,7 +6,7 @@ public class DroneAbduction : MonoBehaviour
     [SerializeField] private float liftSpeed = 5f; // Velocidade de levitação
     [SerializeField] private float detectionRadius = 5f; // Raio de detecção da abdução
     [SerializeField] private float rotationSpeed = 50f; // Velocidade de rotação manual
-    [SerializeField] private LayerMask abductionLayer; // Layer para objetos que podem ser abduzidos
+    [SerializeField] private string abductionTag = "Abduzivel";
 
     private GameObject abductedObject; // Objeto atualmente sendo abduzido
     private bool isAbducting = false; // Controle da abdução
@@ -52,29 +52,25 @@ public class DroneAbduction : MonoBehaviour
 
     private void TryToAbduct()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius, abductionLayer);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, detectionRadius);
 
-        if (colliders.Length > 0)
+        foreach (Collider collider in colliders)
         {
-            // Pegue o primeiro objeto no raio
-            abductedObject = colliders[0].gameObject;
-            abductedObjectCollider = abductedObject.GetComponent<Collider>();
-
-            // Desabilitar gravidade para o objeto
-            Rigidbody rb = abductedObject.GetComponent<Rigidbody>();
-            if (rb != null)
+            if (collider.CompareTag(abductionTag))
             {
-                rb.useGravity = false;
-                rb.isKinematic = true; // Previne interferência física
-            }
+                abductedObject = collider.gameObject;
+                abductedObjectCollider = abductedObject.GetComponent<Collider>();
 
-            // Ignorar colisões entre o drone e o objeto abduzido
-            if (droneCollider != null && abductedObjectCollider != null)
-            {
-                Physics.IgnoreCollision(droneCollider, abductedObjectCollider, true);
-            }
+                Rigidbody rb = abductedObject.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.useGravity = false;
+                    rb.isKinematic = false;
+                }
 
-            isAbducting = true;
+                isAbducting = true;
+                break; // Para a busca assim que encontrar o primeiro objeto com a tag correta
+            }
         }
     }
 

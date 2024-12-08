@@ -7,6 +7,7 @@ TagManager:
   - CinemachineTarget
   - Moeda
   - VictoryObject
+  - Abduzivel
   layers:
   - Default
   - TransparentFX

@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // Troca de controle ao pressionar Tab
-        if (Input.GetKeyDown(KeyCode.Tab) && PlayerMovement.isGrounded)
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             SwitchControl();
         }
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
         UFOCamera.enabled = !isPlayer;
 
         // Gerencia visibilidade do UFO
-        UFO.SetActive(!isPlayer);
+        // UFO.SetActive(!isPlayer);
 
         if (!isPlayer)
         {
