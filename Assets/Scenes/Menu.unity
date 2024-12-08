@@ -286,6 +286,7 @@ GameObject:
   - component: {fileID: 252204163}
   - component: {fileID: 252204162}
   - component: {fileID: 252204166}
+  - component: {fileID: 252204167}
   m_Layer: 5
   m_Name: MenuGame
   m_TagString: Untagged
@@ -371,12 +372,12 @@ RectTransform:
   - {fileID: 1165359349}
   - {fileID: 305093660}
   - {fileID: 1999397691}
-  - {fileID: 550060183}
   - {fileID: 2063441855}
   - {fileID: 845821659}
   - {fileID: 1602248788}
   - {fileID: 27420770}
   - {fileID: 1398911058}
+  - {fileID: 550060183}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -398,6 +399,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creditsPanel: {fileID: 1398911057}
   darkBackground: {fileID: 27420767}
+--- !u!114 &252204167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252204161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a377f91bd3a6a2e479cd2b2d70fddbd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadePanel: {fileID: 550060181}
+  fadeDuration: 1
 --- !u!1 &255538042
 GameObject:
   m_ObjectHideFlags: 0
@@ -1263,7 +1278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2359,7 +2374,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 252204166}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: exitGame
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2714,8 +2729,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 252204166}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+      - m_Target: {fileID: 252204167}
+        m_TargetAssemblyTypeName: SceneTransition, Assembly-CSharp
         m_MethodName: TransitionToScene
         m_Mode: 5
         m_Arguments:
