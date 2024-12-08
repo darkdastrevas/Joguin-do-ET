@@ -2,47 +2,43 @@ using UnityEngine;
 
 public class PauseManager : MonoBehaviour
 {
-    [SerializeField] private GameObject pauseMenuUI; // Referência ao menu de pausa na interface
+    public GameObject pauseMenuUI; // Painel do menu de pausa
+    public GameObject extraImage; // Imagem extra para exibir no botão
 
     private bool isPaused = false;
 
     void Update()
     {
-        // Verifica se a tecla de pausa foi pressionada (Escape)
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            if (isPaused)
+            if (isPaused && extraImage.activeSelf)
             {
-                Resume();
+                // Fecha a imagem extra
+                extraImage.SetActive(false);
             }
             else
             {
-                Pause();
+                // Alterna o estado de pausa
+                TogglePause();
             }
         }
     }
 
-    public void Pause()
+    public void TogglePause()
     {
-        isPaused = true;
-        Time.timeScale = 0f; // Pausa o tempo do jogo
-        pauseMenuUI.SetActive(true); // Mostra o menu de pausa
-        Cursor.lockState = CursorLockMode.None; // Libera o cursor
-        Cursor.visible = true; // Torna o cursor visível
+        isPaused = !isPaused;
+        pauseMenuUI.SetActive(isPaused);
+        Time.timeScale = isPaused ? 0f : 1f; // Pausa/Despausa o jogo
+
+        Cursor.visible = isPaused; // Mostra o cursor quando pausado
+        Cursor.lockState = isPaused ? CursorLockMode.None : CursorLockMode.Locked; // Desbloqueia o cursor quando pausado
     }
 
-    public void Resume()
+    public void ShowImage()
     {
-        isPaused = false;
-        Time.timeScale = 1f; // Retoma o tempo do jogo
-        pauseMenuUI.SetActive(false); // Esconde o menu de pausa
-        Cursor.lockState = CursorLockMode.Locked; // Bloqueia o cursor novamente
-        Cursor.visible = false; // Esconde o cursor
-    }
-
-    public void QuitGame()
-    {
-        Debug.Log("Saindo do jogo...");
-        Application.Quit(); // Fecha o jogo (não funciona no editor)
+        if (!extraImage.activeSelf)
+        {
+            extraImage.SetActive(true); // Mostra a imagem
+        }
     }
 }

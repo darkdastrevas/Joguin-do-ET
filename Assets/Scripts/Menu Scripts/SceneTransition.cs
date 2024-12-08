@@ -3,10 +3,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 
-public class MenuManager : MonoBehaviour
+public class SceneTransition : MonoBehaviour
 {
-    public Image fadePanel; // Referência à imagem usada para o fade
-    public float fadeDuration = 1f; // Duração do fade
+    public Image fadePanel; // Referencia imagem usada para o fade
+    public float fadeDuration = 1f; // Duracao do fade
 
     private void Start()
     {
@@ -16,7 +16,7 @@ public class MenuManager : MonoBehaviour
 
     public void TransitionToScene(string sceneName)
     {
-        // Começa o Fade Out e, em seguida, carrega a próxima cena
+        // Comeca o Fade Out e, em seguida, carrega a proxima cena
         StartCoroutine(FadeOut(sceneName));
     }
 
@@ -24,7 +24,7 @@ public class MenuManager : MonoBehaviour
     {
         float elapsedTime = 0f;
         Color fadeColor = fadePanel.color;
-        fadeColor.a = 1f; // Começa totalmente opaco
+        fadeColor.a = 1f; // Comeca totalmente opaco
 
         while (elapsedTime < fadeDuration)
         {
@@ -42,7 +42,7 @@ public class MenuManager : MonoBehaviour
     {
         float elapsedTime = 0f;
         Color fadeColor = fadePanel.color;
-        fadeColor.a = 0f; // Começa transparente
+        fadeColor.a = 0f; // Comeca transparente
 
         while (elapsedTime < fadeDuration)
         {
