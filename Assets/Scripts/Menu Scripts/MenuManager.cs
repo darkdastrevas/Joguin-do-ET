@@ -5,57 +5,88 @@ using System.Collections;
 
 public class MenuManager : MonoBehaviour
 {
-    public Image fadePanel; // Referência à imagem usada para o fade
-    public float fadeDuration = 1f; // Duração do fade
+    public GameObject creditsPanel;
+    public GameObject darkBackground; // O fundo escuro
 
-    private void Start()
+    // Função para exibir os créditos
+    public void ShowCredits()
     {
-        // Inicia com o Fade In ao carregar a cena
-        StartCoroutine(FadeIn());
+        creditsPanel.SetActive(true); // Ativa o painel de créditos
+        darkBackground.SetActive(true); // Ativa o fundo escuro
+
+        // Começa o fade-in para os créditos e fundo escuro
+        StartCoroutine(FadeInCredits());
     }
 
-    public void TransitionToScene(string sceneName)
+    // Função para esconder os créditos
+    public void HideCredits()
     {
-        // Começa o Fade Out e, em seguida, carrega a próxima cena
-        StartCoroutine(FadeOut(sceneName));
+        // Começa o fade-out para os créditos e fundo escuro
+        StartCoroutine(FadeOutCredits());
     }
 
-    private IEnumerator FadeIn()
+    // Função para fazer o fade-in (tornar visível)
+    private IEnumerator FadeInCredits()
     {
         float elapsedTime = 0f;
-        Color fadeColor = fadePanel.color;
-        fadeColor.a = 1f; // Começa totalmente opaco
+        Color creditsColor = creditsPanel.GetComponent<Image>().color;
+        Color backgroundColor = darkBackground.GetComponent<Image>().color;
 
-        while (elapsedTime < fadeDuration)
+        while (elapsedTime < 1f)
         {
             elapsedTime += Time.deltaTime;
-            fadeColor.a = Mathf.Lerp(1f, 0f, elapsedTime / fadeDuration);
-            fadePanel.color = fadeColor;
+            creditsColor.a = Mathf.Lerp(0f, 1f, elapsedTime); // Fade-in para créditos
+            backgroundColor.a = Mathf.Lerp(0f, 0.5f, elapsedTime); // Fade-in para o fundo escuro
+
+            creditsPanel.GetComponent<Image>().color = creditsColor;
+            darkBackground.GetComponent<Image>().color = backgroundColor;
+
+            yield return null;
+        }
+    }
+
+    // Função para fazer o fade-out (tornar invisível)
+    private IEnumerator FadeOutCredits()
+    {
+        float elapsedTime = 0f;
+        Color creditsColor = creditsPanel.GetComponent<Image>().color;
+        Color backgroundColor = darkBackground.GetComponent<Image>().color;
+
+        while (elapsedTime < 1f)
+        {
+            elapsedTime += Time.deltaTime;
+            creditsColor.a = Mathf.Lerp(1f, 0f, elapsedTime); // Fade-out para créditos
+            backgroundColor.a = Mathf.Lerp(0.5f, 0f, elapsedTime); // Fade-out para o fundo escuro
+
+            creditsPanel.GetComponent<Image>().color = creditsColor;
+            darkBackground.GetComponent<Image>().color = backgroundColor;
+
             yield return null;
         }
 
-        fadeColor.a = 0f;
-        fadePanel.color = fadeColor;
+        creditsPanel.SetActive(false); // Desativa o painel de créditos após o fade-out
+        darkBackground.SetActive(false); // Desativa o fundo escuro
     }
 
-    private IEnumerator FadeOut(string sceneName)
+    // Função que pode ser chamada para pausar o jogo e mostrar o menu
+    public void PauseGame()
     {
-        float elapsedTime = 0f;
-        Color fadeColor = fadePanel.color;
-        fadeColor.a = 0f; // Começa transparente
+        // Pausa o jogo e mostra o menu
+        Time.timeScale = 0f;
+        // Coloque aqui a lógica de exibir o menu de pausa, se necessário
+    }
 
-        while (elapsedTime < fadeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            fadeColor.a = Mathf.Lerp(0f, 1f, elapsedTime / fadeDuration);
-            fadePanel.color = fadeColor;
-            yield return null;
-        }
+    // Função que pode ser chamada para retomar o jogo e fechar o menu
+    public void ResumeGame()
+    {
+        // Retoma o jogo e fecha o menu
+        Time.timeScale = 1f;
+        // Coloque aqui a lógica de esconder o menu de pausa, se necessário
+    }
 
-        fadeColor.a = 1f;
-        fadePanel.color = fadeColor;
-
-        // Carrega a próxima cena
-        SceneManager.LoadScene(sceneName);
+    // Função para voltar ao menu principal ou outra cena
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
