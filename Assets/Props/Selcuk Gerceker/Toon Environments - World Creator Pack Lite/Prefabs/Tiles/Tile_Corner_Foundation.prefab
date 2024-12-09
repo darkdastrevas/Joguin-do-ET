@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -2574943401130941308}
   m_Layer: 6
   m_Name: Tile_Corner_Foundation
-  m_TagString: Untagged
+  m_TagString: Grass
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

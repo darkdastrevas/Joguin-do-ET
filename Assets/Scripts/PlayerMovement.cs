@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
 
     private Vector3 moveDirection;
-    private Vector3 velocity;
+    public Vector3 velocity;
     private bool isFalling;
     public bool isAlive = true; // Controle para saber se o jogador est� vivo
 
@@ -26,6 +26,11 @@ public class PlayerMovement : MonoBehaviour
     private Animator anim;
     [SerializeField] private Transform cameraTransform;  // Referencia da camera para o player
     private HeartSystem heartSystem;
+
+    // REFERÊNCIAS DO ÁUDIO
+    [SerializeField] private AudioSource footstepAudioSource;
+    [SerializeField] private AudioClip jumpSound; // Som do pulo
+
 
     private void Start()
     {
@@ -91,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (moveDirection.magnitude >= 0.1f)  // Verifica se tem movimento
         {
-        
+
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 Run();
@@ -146,6 +151,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
+        // Toca o som de pulo
+        footstepAudioSource.PlayOneShot(jumpSound);
+
         // Forca do pulo
         velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         anim.SetBool("isJumping", true);
@@ -156,7 +164,7 @@ public class PlayerMovement : MonoBehaviour
         anim.SetTrigger("Morrer"); // Ativa a anima��o de morte
     }
 
-    public void Revive ()
+    public void Revive()
     {
         isAlive = true;
         anim.SetTrigger("Renasceu");

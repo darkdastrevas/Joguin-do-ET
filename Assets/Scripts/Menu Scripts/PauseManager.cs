@@ -41,4 +41,10 @@ public class PauseManager : MonoBehaviour
             extraImage.SetActive(true); // Mostra a imagem
         }
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
 }

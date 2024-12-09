@@ -14,6 +14,7 @@ public class controleufo : MonoBehaviour
     // REFERÊNCIAS
     [SerializeField] private Transform cameraTransform;
 
+
     public void Spawn()
         {
             anim.SetTrigger("Spawn");

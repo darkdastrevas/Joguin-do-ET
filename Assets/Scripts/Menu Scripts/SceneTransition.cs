@@ -18,6 +18,9 @@ public class SceneTransition : MonoBehaviour
     {
         // Comeca o Fade Out e, em seguida, carrega a proxima cena
         StartCoroutine(FadeOut(sceneName));
+
+        Cursor.lockState = CursorLockMode.None;  // Libera o cursor
+        Cursor.visible = true;  // Torna o cursor visível
     }
 
     private IEnumerator FadeIn()
