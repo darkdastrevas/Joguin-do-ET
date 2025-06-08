@@ -14,18 +14,23 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
 
     private Vector3 moveDirection;
-    private Vector3 velocity;
+    public Vector3 velocity;
     private bool isFalling;
-    private bool isAlive = true; // Controle para saber se o jogador est· vivo
+    public bool isAlive = true; // Controle para saber se o jogador estÔøΩ vivo
 
 
-    [SerializeField] private bool isGrounded;
+    [SerializeField] public bool isGrounded;
 
     // REFERENCIAS
     private CharacterController controller;
     private Animator anim;
     [SerializeField] private Transform cameraTransform;  // Referencia da camera para o player
     private HeartSystem heartSystem;
+
+    // REFER√äNCIAS DO √ÅUDIO
+    [SerializeField] private AudioSource footstepAudioSource;
+    [SerializeField] private AudioClip jumpSound; // Som do pulo
+
 
     private void Start()
     {
@@ -41,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
             Move();
         }
 
-        // Verifica se a vida chegou a zero e chama Morrer() se necess·rio
+        // Verifica se a vida chegou a zero e chama Morrer() se necessÔøΩrio
         if (heartSystem.vidaAtual <= 0 && isAlive)
         {
             Die();
@@ -50,23 +55,23 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        // VerificaÁ„o de solo
+        // VerificaÔøΩÔøΩo de solo
         isGrounded = Physics.CheckSphere(transform.position, groundCheckDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
         {
             anim.SetBool("isJumping", false);
             velocity.y = -2f;
-            isFalling = false; // Parar a animaÁ„o de cair
-            anim.SetBool("is_in_air", false); // Parar a animaÁ„o de cair
+            isFalling = false; // Parar a animaÔøΩÔøΩo de cair
+            anim.SetBool("is_in_air", false); // Parar a animaÔøΩÔøΩo de cair
         }
         else
         {
-            // Se o jogador est· no ar e n„o est· subindo, ativa a animaÁ„o de cair
+            // Se o jogador estÔøΩ no ar e nÔøΩo estÔøΩ subindo, ativa a animaÔøΩÔøΩo de cair
             if (velocity.y < 0 && !isFalling)
             {
                 isFalling = true;
-                anim.SetBool("is_in_air", true); // Inicia a animaÁ„o de cair
+                anim.SetBool("is_in_air", true); // Inicia a animaÔøΩÔøΩo de cair
             }
         }
 
@@ -74,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
         float moveZ = Input.GetAxis("Vertical"); // Frente e tras
         float moveX = Input.GetAxis("Horizontal"); // Esquerda e direita
 
-        // DireÁ„o do movimento baseada na camera
+        // DireÔøΩÔøΩo do movimento baseada na camera
         Vector3 camForward = cameraTransform.forward;
         Vector3 camRight = cameraTransform.right;
 
@@ -91,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (moveDirection.magnitude >= 0.1f)  // Verifica se tem movimento
         {
-        
+
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 Run();
@@ -104,14 +109,14 @@ public class PlayerMovement : MonoBehaviour
             // Rotaciona o player na direcao do vetor
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             // Suaviza a rotacao
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f); // Suaviza a rotaÁ„o
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f); // Suaviza a rotaÔøΩÔøΩo
 
             // Aplica movimento na direcao
             controller.Move(moveDirection * moveSpeed * Time.deltaTime);
         }
         else
         {
-            // Idle quando n„o est· se movendo
+            // Idle quando nÔøΩo estÔøΩ se movendo
             Idle();
         }
 
@@ -146,6 +151,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
+        // Toca o som de pulo
+        footstepAudioSource.PlayOneShot(jumpSound);
+
         // Forca do pulo
         velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
         anim.SetBool("isJumping", true);
@@ -153,7 +161,13 @@ public class PlayerMovement : MonoBehaviour
     private void Die()
     {
         isAlive = false; // Define o jogador como morto
-        anim.SetTrigger("Morrer"); // Ativa a animaÁ„o de morte
+        anim.SetTrigger("Morrer"); // Ativa a animaÔøΩÔøΩo de morte
+    }
+
+    public void Revive()
+    {
+        isAlive = true;
+        anim.SetTrigger("Renasceu");
     }
 
 }

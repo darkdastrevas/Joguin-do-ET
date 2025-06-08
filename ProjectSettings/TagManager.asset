@@ -6,16 +6,19 @@ TagManager:
   tags:
   - CinemachineTarget
   - Moeda
+  - VictoryObject
+  - Abduzivel
+  - Grass
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Ground
-  - 
-  - 
+  - Abduzivel
+  - UFO
   - 
   - 
   - 
